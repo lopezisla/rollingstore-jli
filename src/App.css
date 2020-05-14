@@ -1,5 +1,12 @@
-.App {
-  text-align: center;
+:root {
+  --background: #457b9d;
+  --secondary: #1d3557;
+  --terciary: #a8dadc;
+  --details: #e63946;
+  --text: #f1faee;
+  --test1: red;
+  --test2: blue;
+  --test3: yellow;
 }
 
 .App-logo {
@@ -7,26 +14,72 @@
   pointer-events: none;
 }
 
-.App-header {
-  background-color: #282c34;
+.App-container {
+  background-color: var(--background);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: var(--text);
+}
+
+.logo {
+  width: 120px;
+  height: 31px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 16px 28px 16px 0;
+  float: left;
+}
+
+.greetings {
+  width: 120px;
+  height: 31px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 16px 28px 16px 0;
+  float: right;
 }
 
 .App-link {
-  color: #61dafb;
+  color: var(--details);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.header {
+  color: var(--text) !important;
+}
+
+.header-logo {
+  height: 60px;
+  cursor: pointer !important;
+}
+
+.header-search {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.header-greetings {
+  display: flex;
+  justify-content: center;
+  font-size: 16px;
+}
+
+.content {
+  background-color: var(--background);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer {
+  color: var(--text) !important;
+  background-color: var(--details) !important;
+}
+
+.product-card {
+  background-color: var(--secondary);
+  margin: 10px;
+  padding: 15px;
 }
