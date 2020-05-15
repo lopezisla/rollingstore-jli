@@ -8,7 +8,7 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userName: "Alex",
+      userName: "Jorge",
       products: [
         {
           id: "prod01",
@@ -62,7 +62,21 @@ export default class App extends Component {
               <Results userName={userName} results={results} term={term} />
             </div>
           </Route>
-
+          <Route path="/products">
+            <div className="App-container">
+              <Results userName={userName} term={term} />
+            </div>
+          </Route>
+          <Route path="/cart">
+            <div className="App-container">
+              <Results userName={userName} term={term} />
+            </div>
+          </Route>
+          <Route path="/success">
+            <div className="App-container">
+              <Results userName={userName} term={term} />
+            </div>
+          </Route>
           <Route path="/">
             <div className="App-container">
               <Main
