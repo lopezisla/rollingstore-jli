@@ -62,7 +62,7 @@ export default class App extends Component {
               <Results userName={userName} results={results} term={term} />
             </div>
           </Route>
-          <Route path="/products">
+          <Route path="/product/:id">
             <div className="App-container">
               <Results userName={userName} term={term} />
             </div>
