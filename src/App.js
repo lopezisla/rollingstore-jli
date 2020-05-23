@@ -1,38 +1,53 @@
 import React, { Component } from "react";
 import "./App.css";
-import Main from "./components/Main";
-import Results from "./components/Results";
+import Main from "./pages/Main";
+import Results from "./pages/Results";
+import Product from "./pages/Product";
+import Cart from "./pages/Cart";
+import Success from "./pages/Success";
+import CustomFooter from "./components/CustomFooter";
+import CustomHeader from "./components/CustomHeader";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { firebaseApp } from "./firebase";
 
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userName: "Jorge",
-      products: [
-        {
-          id: "prod01",
-          name: "notebook",
-          brand: "Asus",
-          price: 19000,
-        },
-        {
-          id: "prod02",
-
-          name: "zapatillas",
-          brand: "Nike",
-          price: 3500,
-        },
-        {
-          id: "prod03",
-          name: "juego de ps4",
-          brand: "Dark Souls",
-          price: 5000,
-        },
-      ],
+      username: "Jorge",
+      products: [],
       results: [],
       term: "",
     };
+    this.updateTerm = this.updateTerm.bind(this);
+    this.updateList = this.updateList.bind(this);
+    this.saludar = this.saludar.bind(this);
+
+    this.productsRef = firebaseApp.database().ref().child("products");
+  }
+
+  componentDidMount() {
+    this.listenForProducts(this.productsRef);
+  }
+
+  listenForProducts(productsRef) {
+    productsRef.on("value", (snap) => {
+      let products = [];
+      snap.forEach((child) => {
+        products.push({
+          name: child.val().name,
+          brand: child.val().brand,
+          price: child.val().price,
+          id: child.val().id,
+        });
+      });
+
+      this.setState({ products });
+    });
+  }
+
+  saludar() {
+    alert("hola");
   }
 
   updateTerm(term) {
@@ -50,45 +65,54 @@ export default class App extends Component {
   }
 
   render() {
-    const { userName, products, term, results } = this.state;
+    const { username, products, term, results } = this.state;
     const updateTerm = this.updateTerm.bind(this);
     const updateList = this.updateList.bind(this);
+    const saludar = this.saludar.bind(this);
 
     return (
       <Router>
+        <CustomHeader
+          username={username}
+          term={term}
+          updateTerm={updateTerm}
+          updateList={updateList}
+          products={products}
+          saludar={saludar}
+        />
+
         <Switch>
           <Route path="/results">
             <div className="App-container">
-              <Results userName={userName} results={results} term={term} />
+              <Results results={results} />
             </div>
           </Route>
-          <Route path="/product/:id">
+          <Route path="/product">
             <div className="App-container">
-              <Results userName={userName} term={term} />
+              <Product />
             </div>
           </Route>
+
           <Route path="/cart">
             <div className="App-container">
-              <Results userName={userName} term={term} />
+              <Cart />
             </div>
           </Route>
+
           <Route path="/success">
             <div className="App-container">
-              <Results userName={userName} term={term} />
+              <Success />
             </div>
           </Route>
+
           <Route path="/">
             <div className="App-container">
-              <Main
-                userName={userName}
-                products={products}
-                updateTerm={updateTerm}
-                term={term}
-                updateList={updateList}
-              />
+              <Main products={products} />
             </div>
           </Route>
         </Switch>
+
+        <CustomFooter />
       </Router>
     );
   }
